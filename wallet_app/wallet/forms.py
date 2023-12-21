@@ -1,20 +1,20 @@
 from django import forms
-from .models import Budget, Expense
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django import forms
 
 
-class BudgetForm(forms.ModelForm):
+class RecordForm(forms.Form):
+    type = forms.CharField(max_length=40)
+    category = forms.CharField(max_length=40)
+    sub_category = forms.CharField(max_length=40)
+    payment = forms.CharField(max_length=40)
+    amount = forms.FloatField()
+    date = forms.DateField()
+    time = forms.TimeInput()
+
+
+class CreateUserForm(UserCreationForm):
     class Meta:
-        model = Budget
-        fields = ['amount']
-
-
-class ExpenseForm(forms.ModelForm):
-    class Meta:
-        model = Expense
-        fields = ['name', 'amount']
-
-
-class BalanceForm(forms.ModelForm):
-    class Meta:
-        model = Budget
-        fields = ['balance']
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
