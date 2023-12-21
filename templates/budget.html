@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Other head elements -->
+</head>
+<body>
+    <!-- Your HTML content -->
+</body>
+</html>
+<!-- budget_tracker/budget.html -->
+<html>
+<head>
+    <title>Budget Tracker</title>
+</head>
+<body>
+    <h1>Budget Tracker</h1>
+    <form method="post" action="{% url 'budget-view' %}">
+        {% csrf_token %}
+        {{ budget_form.as_p }}
+        <button type="submit">Save Budget</button>
+    </form>
+
+    <h2>Expenses</h2>
+    <form method="post" action="{% url 'budget-view' %}">
+        {% csrf_token %}
+        {{ expense_form.as_p }}
+        <button type="submit">Add Expense</button>
+    </form>
+
+    <ul>
+        {% for expense in expenses %}
+            <li>{{ expense.name }} - {{ expense.amount }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
