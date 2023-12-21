@@ -77,7 +77,14 @@ def dashboard(request):
     # Total and balance
     total_earnings = RecordModel.objects.filter(type='Income').aggregate(Sum('amount'))
     total_expenses = RecordModel.objects.filter(type='Expense').aggregate(Sum('amount'))
-    cash_balance = total_earnings.get('amount__sum') - total_expenses.get('amount__sum')
+
+    earnings_sum = total_earnings.get('amount__sum') or 0
+    expenses_sum = total_expenses.get('amount__sum') or 0
+
+    cash_balance = earnings_sum - expenses_sum
+    # total_earnings = RecordModel.objects.filter(type='Income').aggregate(Sum('amount'))
+    # total_expenses = RecordModel.objects.filter(type='Expense').aggregate(Sum('amount'))
+    # cash_balance = total_earnings.get('amount__sum') - total_expenses.get('amount__sum')
     date_today = datetime.now()
     # This month
     month_first_day = date_today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
@@ -86,7 +93,10 @@ def dashboard(request):
     month = RecordModel.objects.filter(date__range=(month_first_day, next_month_first_day))
     month_earnings = month.filter(type='Income').aggregate(Sum('amount'))
     month_expenses = month.filter(type='Expense').aggregate(Sum('amount'))
-    month_cash_balance = month_earnings.get('amount__sum') - month_expenses.get('amount__sum')
+    month_earnings_sum = month_earnings.get('amount__sum') or 0
+    month_expenses_sum = month_expenses.get('amount__sum') or 0
+
+    month_cash_balance = month_earnings_sum - month_expenses_sum
     # Last 6 month
     # Last month
     m1_first1 = date_today - timedelta(days=32)
@@ -198,7 +208,11 @@ class LineChartData(APIView):
         # Total and balance
         total_earnings = RecordModel.objects.filter(type='Income').aggregate(Sum('amount'))
         total_expenses = RecordModel.objects.filter(type='Expense').aggregate(Sum('amount'))
-        cash_balance = total_earnings.get('amount__sum') - total_expenses.get('amount__sum')
+
+        earnings_sum = total_earnings.get('amount__sum') or 0
+        expenses_sum = total_expenses.get('amount__sum') or 0
+
+        cash_balance = earnings_sum - expenses_sum
         date_today = datetime.now()
         # This month
         month_first_day = date_today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
@@ -207,7 +221,10 @@ class LineChartData(APIView):
         month = RecordModel.objects.filter(date__range=(month_first_day, next_month_first_day))
         month_earnings = month.filter(type='Income').aggregate(Sum('amount'))
         month_expenses = month.filter(type='Expense').aggregate(Sum('amount'))
-        month_cash_balance = month_earnings.get('amount__sum') - month_expenses.get('amount__sum')
+        month_earnings = month_earnings.get('amount__sum') or 0
+        month_expenses = month_expenses.get('amount__sum') or 0
+
+        month_cash_balance = month_earnings - month_expenses
         # Last 6 month
         # Last month
         m1_first1 = date_today - timedelta(days=32)
