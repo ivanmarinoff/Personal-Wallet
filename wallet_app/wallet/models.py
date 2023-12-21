@@ -1,14 +1,14 @@
-# models.py
 from django.db import models
 
-class Budget(models.Model):
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+# Create your models here.
+class RecordModel(models.Model):
+    type            = models.CharField(max_length=40)
+    category        = models.CharField(max_length=40)
+    sub_category    = models.CharField(max_length=40)
+    payment         = models.CharField(max_length=40)
+    amount          = models.FloatField()
+    date            = models.DateField()
+    time            = models.TimeField()
 
-class Expense(models.Model):
-    budget = models.ForeignKey(Budget, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-
-class Balance(models.Model):
-    budget = models.ForeignKey(Budget, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    def __str__(self):
+        return "{}. {} - {} - {} - {}".format(self.id, self.type, self.category, self.payment, self.amount)

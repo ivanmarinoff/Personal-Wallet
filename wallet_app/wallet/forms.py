@@ -17,4 +17,4 @@ class ExpenseForm(forms.ModelForm):
 class BalanceForm(forms.ModelForm):
     class Meta:
         model = Budget
-        fields = ['amount']
+        fields = ['balance']
