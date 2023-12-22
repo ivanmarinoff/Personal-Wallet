@@ -1,8 +1,6 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
-from django.db import models
 
 # Messages frameworks
 from django.contrib import messages
@@ -18,8 +16,6 @@ from django.contrib.auth.decorators import login_required
 # Django REST framework
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import authentication, permissions
-from django.contrib.auth.models import User
 
 # Query Model
 from django.db.models import Sum
@@ -358,5 +354,3 @@ def reports(request):
 def delete(request, delete_id):
     RecordModel.objects.filter(id=delete_id).delete()
     return HttpResponseRedirect('/reports')
-
-
