@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.urls import path
 from . import views
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('register/', views.registerpage, name='register'),
@@ -12,4 +14,4 @@ urlpatterns = [
     path('reports/delete/<str:delete_id>/', views.delete, name='delete'),
     path('api/linechart/data/', views.LineChartData.as_view()),
     path('api/barchart/data/', views.BarChartData.as_view()),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
