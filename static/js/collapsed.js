@@ -1,5 +1,5 @@
 $(function () {
-    $(".sidenav-collapse").sideNav();
+    // $(".sidenav-collapse").sideNav();
 
     $(".sidenav-collapse").on('click', function () {
         $("#sidenav").toggleClass('collapsed'); // Toggle the 'collapsed' class

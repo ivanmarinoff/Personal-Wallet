@@ -90,3 +90,35 @@ const app = new Vue({
     }
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const sidenav = document.getElementById("sidenav");
+  const toggleSidebar = document.getElementById("toggleSidebar");
+
+  let isOpen = true; // Initially open
+
+  toggleSidebar.addEventListener("click", function () {
+    isOpen = !isOpen;
+    updateSidebarState();
+  });
+
+  function updateSidebarState() {
+    sidenav.style.left = isOpen ? "0" : "-250px";
+  }
+
+  // Auto-hide sidebar on small screens
+  const mediaQuery = window.matchMedia("(max-width: 600px)");
+
+  function handleMediaQuery(event) {
+    if (event.matches) {
+      sidenav.style.left = "-250px";
+      isOpen = false;
+    } else {
+      sidenav.style.left = "0";
+      isOpen = true;
+    }
+  }
+
+  handleMediaQuery(mediaQuery); // Initial check
+  mediaQuery.addEventListener("change", handleMediaQuery); // Listen for changes
+});
