@@ -68,134 +68,68 @@ def logoutuser(request):
     return redirect('/')
 
 
+def get_month_data(date_range):
+    month_data = RecordModel.objects.filter(date__range=date_range)
+    month_earnings = month_data.filter(type='Income').aggregate(Sum('amount'))
+    month_expenses = month_data.filter(type='Expense').aggregate(Sum('amount'))
+    return month_earnings.get('amount__sum') or 0, month_expenses.get('amount__sum') or 0
+
+
+def get_last_n_months_data(date_today, n):
+    month_data = []
+    for i in range(n):
+        first_day = date_today - timedelta(days=32)
+        first_day = first_day.replace(day=1)
+        last_day = date_today.replace(day=1)
+        month_data.append(RecordModel.objects.filter(date__range=(first_day, last_day)))
+        date_today = first_day
+    return month_data
+
+
+def get_last_n_months_totals(month_data):
+    return [month.aggregate(Sum('amount'))['amount__sum'] or 0 for month in month_data]
+
+
+def get_last_n_months_labels(date_today, n):
+    return [date_today.strftime("%B") for _ in range(n)]
+
+
 @login_required(login_url='login')
 def dashboard(request):
-    # Total and balance
     total_earnings = RecordModel.objects.filter(type='Income').aggregate(Sum('amount'))
     total_expenses = RecordModel.objects.filter(type='Expense').aggregate(Sum('amount'))
-
     earnings_sum = total_earnings.get('amount__sum') or 0
     expenses_sum = total_expenses.get('amount__sum') or 0
-
     cash_balance = earnings_sum - expenses_sum
-    # total_earnings = RecordModel.objects.filter(type='Income').aggregate(Sum('amount'))
-    # total_expenses = RecordModel.objects.filter(type='Expense').aggregate(Sum('amount'))
-    # cash_balance = total_earnings.get('amount__sum') - total_expenses.get('amount__sum')
-    date_today = datetime.now()
-    # This month
-    month_first_day = date_today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    next_month = (date_today.replace(day=1) + timedelta(days=32)).replace(day=1)
-    next_month_first_day = next_month.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    month = RecordModel.objects.filter(date__range=(month_first_day, next_month_first_day))
-    month_earnings = month.filter(type='Income').aggregate(Sum('amount'))
-    month_expenses = month.filter(type='Expense').aggregate(Sum('amount'))
-    month_earnings_sum = month_earnings.get('amount__sum') or 0
-    month_expenses_sum = month_expenses.get('amount__sum') or 0
 
-    month_cash_balance = month_earnings_sum - month_expenses_sum
-    # Last 6 month
-    # Last month
-    m1_first1 = date_today - timedelta(days=32)
-    m1_first = m1_first1.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    m1_last = month_first_day
-    m1 = m1_first1.strftime("%B")
-    month_1 = RecordModel.objects.filter(date__range=(m1_first, m1_last))
-    month_earnings_1 = month_1.filter(type='Income').aggregate(Sum('amount'))
-    month_expenses_1 = month_1.filter(type='Expense').aggregate(Sum('amount'))
-    ea1 = month_earnings_1.get('amount__sum')
-    ex1 = month_expenses_1.get('amount__sum')
-    # 2 month ago
-    m2_first1 = m1_last - timedelta(days=32)
-    m2_first = m2_first1.replace(day=1)
-    m2_last = m1_first
-    m2 = m2_first1.strftime("%B")
-    month_2 = RecordModel.objects.filter(date__range=(m2_first, m2_last))
-    month_earnings_2 = month_2.filter(type='Income').aggregate(Sum('amount'))
-    month_expenses_2 = month_2.filter(type='Expense').aggregate(Sum('amount'))
-    ea2 = month_earnings_2.get('amount__sum')
-    ex2 = month_expenses_2.get('amount__sum')
-    # 3 month ago
-    m3_first1 = m2_last - timedelta(days=32)
-    m3_first = m3_first1.replace(day=1)
-    m3_last = m2_first
-    m3 = m3_first1.strftime("%B")
-    month_3 = RecordModel.objects.filter(date__range=(m3_first, m3_last))
-    month_earnings_3 = month_3.filter(type='Income').aggregate(Sum('amount'))
-    month_expenses_3 = month_3.filter(type='Expense').aggregate(Sum('amount'))
-    ea3 = month_earnings_3.get('amount__sum')
-    ex3 = month_expenses_3.get('amount__sum')
-    # 4 month ago
-    m4_first1 = m3_last - timedelta(days=32)
-    m4_first = m4_first1.replace(day=1)
-    m4_last = m3_first
-    m4 = m4_first1.strftime("%B")
-    month_4 = RecordModel.objects.filter(date__range=(m4_first, m4_last))
-    month_earnings_4 = month_4.filter(type='Income').aggregate(Sum('amount'))
-    month_expenses_4 = month_4.filter(type='Expense').aggregate(Sum('amount'))
-    ea4 = month_earnings_4.get('amount__sum')
-    ex4 = month_expenses_4.get('amount__sum')
-    # 5 month ago
-    m5_first1 = m4_last - timedelta(days=32)
-    m5_first = m5_first1.replace(day=1)
-    m5_last = m4_first
-    m5 = m5_first1.strftime("%B")
-    month_5 = RecordModel.objects.filter(date__range=(m5_first, m5_last))
-    month_earnings_5 = month_5.filter(type='Income').aggregate(Sum('amount'))
-    month_expenses_5 = month_5.filter(type='Expense').aggregate(Sum('amount'))
-    ea5 = month_earnings_5.get('amount__sum')
-    ex5 = month_expenses_5.get('amount__sum')
-    # 6 month ago
-    m6_first1 = m5_last - timedelta(days=32)
-    m6_first = m6_first1.replace(day=1)
-    m6_last = m5_first
-    m6 = m6_first1.strftime("%B")
-    month_6 = RecordModel.objects.filter(date__range=(m6_first, m6_last))
-    month_earnings_6 = month_6.filter(type='Income').aggregate(Sum('amount'))
-    month_expenses_6 = month_6.filter(type='Expense').aggregate(Sum('amount'))
-    ea6 = month_earnings_6.get('amount__sum')
-    ex6 = month_expenses_6.get('amount__sum')
-    labels = [m6, m5, m4, m3, m2, m1]
-    data_earnigs = [ea6, ea5, ea4, ea3, ea2, ea1]
-    data_expenses = [ex6, ex5, ex4, ex4, ex2, ex1]
+    date_today = datetime.now()
+    month_earnings, month_expenses = get_month_data(
+        (date_today.replace(day=1, hour=0, minute=0, second=0, microsecond=0),
+         (date_today.replace(day=1) + timedelta(days=32)).replace(day=1, hour=0, minute=0, second=0, microsecond=0)))
+
+    month_cash_balance = month_earnings - month_expenses
+
+    # Last 6 months
+    n = 6
+    month_data = get_last_n_months_data(date_today, n)
+    totals_earnings = get_last_n_months_totals(month_data)
+    totals_expenses = get_last_n_months_totals(month_data)
+    labels = get_last_n_months_labels(date_today, n)
 
     context = {
-        # data for cards
-        'total_earnings': total_earnings.get('amount__sum'),
-        'total_expenses': total_expenses.get('amount__sum'),
+        'total_earnings': earnings_sum,
+        'total_expenses': expenses_sum,
         'cash_balance': cash_balance,
-        'month_earnings': month_earnings.get('amount__sum'),
-        'month_expenses': month_expenses.get('amount__sum'),
+        'month_earnings': month_earnings,
+        'month_expenses': month_expenses,
         'month_cash_balance': month_cash_balance,
-
-        # data for line graph
-        # earnings
-        "ea6": ea6,
-        "ea5": ea5,
-        "ea4": ea4,
-        "ea3": ea3,
-        "ea2": ea2,
-        "ea1": ea1,
-
-        # expenses
-        "ex6": ex6,
-        "ex5": ex5,
-        "ex4": ex4,
-        "ex3": ex3,
-        "ex2": ex2,
-        "ex1": ex1,
-
-        # months
-        "m6": m6,
-        "m5": m5,
-        "m4": m4,
-        "m3": m3,
-        "m2": m2,
-        "m1": m1,
+        'data_earnings': totals_earnings,
+        'data_expenses': totals_expenses,
+        'labels': labels,
     }
     return render(request, 'dashboard.html', context)
 
 
-# Django REST API - full queries
 class LineChartData(APIView):
     authentication_classes = []
     permission_classes = []
@@ -210,82 +144,54 @@ class LineChartData(APIView):
 
         cash_balance = earnings_sum - expenses_sum
         date_today = datetime.now()
+
         # This month
+        month_first_day, next_month_first_day = self.get_month_range(date_today)
+        month_earnings, month_expenses = self.get_month_data(month_first_day, next_month_first_day)
+
+        # Last 6 months
+        n = 6
+        labels, data_earnings, data_expenses = self.get_last_n_months_data(date_today, n)
+
+        data = {
+            "labels": labels,
+            "data_earnings": data_earnings,
+            "data_expenses": data_expenses,
+        }
+
+        return Response(data)
+
+    def get_month_range(self, date_today):
         month_first_day = date_today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-        next_month = (date_today.replace(day=1) + timedelta(days=32)).replace(day=1)
+        next_month = (date_today.replace(day=1) + timedelta(days=32)).replace(day=1, hour=0, minute=0, second=0,
+                                                                              microsecond=0)
         next_month_first_day = next_month.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        return month_first_day, next_month_first_day
+
+    def get_month_data(self, month_first_day, next_month_first_day):
         month = RecordModel.objects.filter(date__range=(month_first_day, next_month_first_day))
         month_earnings = month.filter(type='Income').aggregate(Sum('amount'))
         month_expenses = month.filter(type='Expense').aggregate(Sum('amount'))
         month_earnings = month_earnings.get('amount__sum') or 0
         month_expenses = month_expenses.get('amount__sum') or 0
-
         month_cash_balance = month_earnings - month_expenses
-        # Last 6 month
-        # Last month
-        m1_first1 = date_today - timedelta(days=32)
-        m1_first = m1_first1.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-        m1_last = month_first_day
-        month_1 = RecordModel.objects.filter(date__range=(m1_first, m1_last))
-        month_earnings_1 = month_1.filter(type='Income').aggregate(Sum('amount'))
-        month_expenses_1 = month_1.filter(type='Expense').aggregate(Sum('amount'))
-        ea1 = month_earnings_1.get('amount__sum')
-        ex1 = month_expenses_1.get('amount__sum')
-        # 2 month ago
-        m2_first1 = m1_last - timedelta(days=32)
-        m2_first = m2_first1.replace(day=1)
-        m2_last = m1_first
-        month_2 = RecordModel.objects.filter(date__range=(m2_first, m2_last))
-        month_earnings_2 = month_2.filter(type='Income').aggregate(Sum('amount'))
-        month_expenses_2 = month_2.filter(type='Expense').aggregate(Sum('amount'))
-        ea2 = month_earnings_2.get('amount__sum')
-        ex2 = month_expenses_2.get('amount__sum')
-        # 3 month ago
-        m3_first1 = m2_last - timedelta(days=32)
-        m3_first = m3_first1.replace(day=1)
-        m3_last = m2_first
-        month_3 = RecordModel.objects.filter(date__range=(m3_first, m3_last))
-        month_earnings_3 = month_3.filter(type='Income').aggregate(Sum('amount'))
-        month_expenses_3 = month_3.filter(type='Expense').aggregate(Sum('amount'))
-        ea3 = month_earnings_3.get('amount__sum')
-        ex3 = month_expenses_3.get('amount__sum')
-        # 4 month ago
-        m4_first1 = m3_last - timedelta(days=32)
-        m4_first = m4_first1.replace(day=1)
-        m4_last = m3_first
-        month_4 = RecordModel.objects.filter(date__range=(m4_first, m4_last))
-        month_earnings_4 = month_4.filter(type='Income').aggregate(Sum('amount'))
-        month_expenses_4 = month_4.filter(type='Expense').aggregate(Sum('amount'))
-        ea4 = month_earnings_4.get('amount__sum')
-        ex4 = month_expenses_4.get('amount__sum')
-        # 5 month ago
-        m5_first1 = m4_last - timedelta(days=32)
-        m5_first = m5_first1.replace(day=1)
-        m5_last = m4_first
-        month_5 = RecordModel.objects.filter(date__range=(m5_first, m5_last))
-        month_earnings_5 = month_5.filter(type='Income').aggregate(Sum('amount'))
-        month_expenses_5 = month_5.filter(type='Expense').aggregate(Sum('amount'))
-        ea5 = month_earnings_5.get('amount__sum')
-        ex5 = month_expenses_5.get('amount__sum')
-        # 6 month ago
-        m6_first1 = m5_last - timedelta(days=32)
-        m6_first = m6_first1.replace(day=1)
-        m6_last = m5_first
-        month_6 = RecordModel.objects.filter(date__range=(m6_first, m6_last))
-        month_earnings_6 = month_6.filter(type='Income').aggregate(Sum('amount'))
-        month_expenses_6 = month_6.filter(type='Expense').aggregate(Sum('amount'))
-        ea6 = month_earnings_6.get('amount__sum')
-        ex6 = month_expenses_6.get('amount__sum')
+        return month_earnings, month_expenses
 
-        labels = ['July', 'August', 'September', 'October', 'November', 'December']
-        data_earnigs = [ea6, ea5, ea4, ea3, ea2, ea1]
-        data_expenses = [ex6, ex5, ex4, ex4, ex2, ex1]
-        data = {
-            "labels": labels,
-            "data_earnings": data_earnigs,
-            "data_expenses": data_expenses,
-        }
-        return Response(data)
+    def get_last_n_months_data(self, date_today, n):
+        labels = []
+        data_earnings = []
+        data_expenses = []
+
+        for i in range(n):
+            first_day, last_day = self.get_month_range(date_today - timedelta(days=32 * (i + 1)))
+            month_data = self.get_month_data(first_day, last_day)
+            month_earnings, month_expenses = month_data
+
+            labels.insert(0, first_day.strftime("%B"))
+            data_earnings.insert(0, month_earnings)
+            data_expenses.insert(0, month_expenses)
+
+        return labels, data_earnings, data_expenses
 
 
 class BarChartData(APIView):
