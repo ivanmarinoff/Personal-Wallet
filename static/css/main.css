@@ -59,46 +59,35 @@
 }
 
 #sidenav.collapsed {
-    width: 0;
+  width: 0;
 }
 
 #sidenav {
-    font-family: 'Lato', sans-serif;
-    background-color: #1F1F1F;
-    padding-top: 85px;
-    width: 200px;
-    height: 100vh;
-    margin-left: -3px;
-    position: fixed;
-    transition: left 0.3s ease;
+  font-family: 'Lato', sans-serif;
+  background-color: #1F1F1F;
+  padding-top: 85px;
+  width: 200px;
+  height: 100vh;
+  margin-left: -3px;
+  position: fixed;
+  transition: left 0.3s ease;
 }
 
-
-
-.sidenav-collapse {
-    position: absolute;
-    left: -165px;
-    top: -46px;
-    color: #fff;
+#sidenav.collapsed ul {
+  display: none;
 }
 
-@media (max-width: 768px) {
-    #sidenav {
-        display: none;
-        /* Hide the sidebar by default on small screens */
-    }
-    #sidenav.collapsed {
-        display: block; /* Show the collapsed sidebar when it has the 'collapsed' class */
-        transition: width 0.3s ease; /* Add a smooth transition effect */
-    }
-
-    #grid-right {
-        margin-left: 0; /* Adjust the main content area when the sidebar is collapsed */
-    }
+#sidenav.collapsed ul li {
+  margin-top: 20px;
 }
 
-.sidenav-collapse.active {
-    color: #1de9b6;
+#sidenav.collapsed ul li a i {
+  font-size: 40px; 
+}
+
+@media (max-width: 700px) {
+  #sidenav.collapsed ul {
+    display: block; 
 }
 
 .sidenav-collapse i {

@@ -1,15 +1,19 @@
-$(function () {
-    // $(".sidenav-collapse").sideNav();
+$(function() {
+  $(".sidenav-collapse").sideNav();
 
-    $(".sidenav-collapse").on('click', function () {
-        $("#sidenav").toggleClass('collapsed'); // Toggle the 'collapsed' class
-    });
+  $(".sidenav-collapse").on('click', function() {
+    // Check the window width
+    if ($(window).width() === 0) {
+      // Hide the sidebar captions and text
+      $("#sidenav ul").hide();
 
-    // Add event listener to handle window resize
-    $(window).on('resize', function () {
-        if ($(window).width() > 768) {
-            // Remove 'collapsed' class when the screen size is larger than 768px
-            $("#sidenav").removeClass('collapsed');
-        }
-    });
+      // Show the side menu icons
+      $("#sidenav ul li a i").show();
+    } else {
+      // Remove the 'collapsed' class to expand the side menu on small screens
+      if ($(window).width() <= 700) {
+        $("#sidenav").removeClass('collapsed');
+      }
+    }
+  });
 });
