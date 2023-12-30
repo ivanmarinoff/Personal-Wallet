@@ -137,3 +137,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
 }
+
+DATE_INPUT_FORMATS = ["%d.%m.%Y"]
+DATE_FORMAT = "d.m.Y"
+USE_L10N = False

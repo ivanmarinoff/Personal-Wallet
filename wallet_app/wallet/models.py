@@ -9,7 +9,7 @@ class RecordModel(models.Model):
     payment = models.CharField(max_length=40)
     amount = models.FloatField()
     date = models.DateField()
-    time = models.TimeField()
+    time = models.TimeField(auto_now_add=True)
 
     def __str__(self):
-        return "{}. {} - {} - {} - {}".format(self.id, self.type, self.category, self.payment, self.amount)
+        return "{}. {} - {} - {} - {}".format(self.pk, self.type, self.category, self.payment, self.amount)

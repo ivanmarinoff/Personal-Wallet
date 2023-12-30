@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from django.conf import settings
 
 
 class RecordForm(forms.Form):
@@ -10,7 +11,7 @@ class RecordForm(forms.Form):
     sub_category = forms.CharField(max_length=40)
     payment = forms.CharField(max_length=40)
     amount = forms.FloatField()
-    date = forms.DateField()
+    date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, widget=settings.DATE_FORMAT)
     time = forms.TimeInput()
 
 
