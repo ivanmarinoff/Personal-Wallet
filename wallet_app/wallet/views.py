@@ -13,7 +13,6 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 
-
 User = get_user_model()
 
 

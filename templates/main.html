@@ -13,7 +13,7 @@
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
-        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+          integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 
     <!-- Javascript Chartjs -->
     <script src="{% static 'js/Chart.min.js' %}"></script>
@@ -79,47 +79,47 @@
 </head>
 
 <body>
-    <nav class="navbar fixed-top navbar-custom" id="navbar">
-        <div class="container-fluid">
-            <!-- <button id="toggleSidebar" class="btn btn-dark d-md-none">
-                <i class="fas fa-bars"></i>
-            </button> -->
-            <a class="navbar-brand" href="{% url 'dashboard' %}">
-                <img src="{% static 'images/wallet.png' %}" id="logo" alt="" width="30" height="24"
-                    class="d-inline-block align-top">
-                Manage your Finance | {{ request.user }}
-            </a>
-            <ul class="navbar-nav px-3 flex-row-reverse">
-                <a class="nav-link" href="{% url 'logout' %}">
-                    <button>Sign out</button>
-                </a>
-            </ul>
-        </div>
-    </nav>
+<nav class="navbar fixed-top navbar-custom" id="navbar">
     <div class="container-fluid">
-        <div class="row">
-            <nav id="sidenav">
-                <ul class="nav flex-column">
-                    <li class="nav-link active" id="sidetext"><a href="{% url 'dashboard' %}"><i
-                                class="fas fa-chart-bar nav-icon"></i>Dashboard</a></li>
-                    <li class="nav-link active" id="sidetext"><a href="{% url 'records' %}"><i
-                                class="fas fa-dice-d6 nav-icon"></i>Records</a></li>
-                    <li class="nav-link active" id="sidetext"><a href="{% url 'reports' %}"><i
-                                class="fas fa-table nav-icon"></i>Reports</a></li>
-                </ul>
-            </nav>
-            <div class="col" id="grid-right">
-                <div class="container-fluid">
-                    <!-- Insert Records-->
-                    {% block content %}
-                    {% endblock %}
-                </div>
+        <!-- <button id="toggleSidebar" class="btn btn-dark d-md-none">
+            <i class="fas fa-bars"></i>
+        </button> -->
+        <a class="navbar-brand" href="{% url 'dashboard' %}">
+            <img src="{% static 'images/wallet.png' %}" id="logo" alt="" width="30" height="24"
+                 class="d-inline-block align-top">
+            Manage your Finance | {{ request.user }}
+        </a>
+        <ul class="navbar-nav px-3 flex-row-reverse">
+            <a class="nav-link" href="{% url 'logout' %}">
+                <button>Sign out</button>
+            </a>
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidenav">
+            <ul class="nav flex-column">
+                <li class="nav-link active" id="sidetext"><a href="{% url 'dashboard' %}"><i
+                        class="fas fa-chart-bar nav-icon"></i>Dashboard</a></li>
+                <li class="nav-link active" id="sidetext"><a href="{% url 'records' %}"><i
+                        class="fas fa-dice-d6 nav-icon"></i>Records</a></li>
+                <li class="nav-link active" id="sidetext"><a href="{% url 'reports' %}"><i
+                        class="fas fa-table nav-icon"></i>Reports</a></li>
+            </ul>
+        </nav>
+        <div class="col" id="grid-right">
+            <div class="container-fluid">
+                <!-- Insert Records-->
+                {% block content %}
+                {% endblock %}
             </div>
         </div>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-   <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static 'js/jquery-3.5.1.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/collapsed.js' %}"></script>
