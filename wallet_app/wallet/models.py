@@ -12,4 +12,4 @@ class RecordModel(models.Model):
     time = models.TimeField(auto_now_add=True)
 
     def __str__(self):
-        return "{}. {} - {} - {} - {}".format(self.pk, self.type, self.category, self.payment, self.amount)
+        return "{}. {} - {} - {} - {}".format(self.id, self.type, self.category, self.payment, self.amount)

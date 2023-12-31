@@ -10,7 +10,7 @@ class RecordForm(forms.Form):
     sub_category = forms.CharField(max_length=40)
     payment = forms.CharField(max_length=40)
     amount = forms.FloatField()
-    date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+    date = forms.DateField()
     time = forms.TimeInput()
 
 
