@@ -1,5 +1,7 @@
 - [Personal Wallet App](https://personal-wallet.onrender.com)
 
+[![Schedule for GET requests](https://github.com/ivanmarinoff/Personal-Wallet/actions/workflows/python-package.yml/badge.svg)](https://github.com/ivanmarinoff/Personal-Wallet/actions/workflows/python-package.yml)
+
 
 This is a personal wallet project that allows you to manage your expenses and incomes.
 
