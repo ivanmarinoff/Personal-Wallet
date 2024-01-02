@@ -15,7 +15,7 @@ jobs:
           do
             echo "Execute first GET requests"
             response=$(curl -sS https://personal-wallet.onrender.com/)
-            echo "Wait 5 seconds"
-            sleep 5
+            echo "Wait 120 seconds"
+            sleep 120
             echo "GET Request operation was successful"
           done
