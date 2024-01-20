@@ -1,5 +1,5 @@
 $(function() {
-  $(".sidenav-collapse").sideNav();
+    // Check the window width
 
   $(".sidenav-collapse").on('click', function() {
     // Check the window width

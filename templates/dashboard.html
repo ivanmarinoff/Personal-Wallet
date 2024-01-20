@@ -120,8 +120,15 @@
                             <canvas id="myChart1"></canvas>
                         </div>
                         <script>
-                            var ctx1 = document.getElementById('myChart1').getContext('2d');
-                            var myChart1 = new Chart(ctx1, {
+                            window.chartColors = {
+                                red: 'rgba(255, 99, 132, 0.2)',
+                                blue: 'rgba(0, 0, 255, 0.2)',
+                                // Add other color definitions if needed
+                            };
+                        </script>
+                        <script>
+                            const ctx1 = document.getElementById('myChart1').getContext('2d');
+                            const myChart1 = new window.Chart(ctx1, {
                                 type: 'line',
                                 data: {
                                     labels: ['{{labels.5}}', '{{labels.4}}', '{{labels.3}}', '{{labels.2}}', '{{labels.1}}', '{{labels.0}}'],
@@ -168,12 +175,14 @@
                         <div style="width:100%;">
                             <canvas id="myChart"></canvas>
                         </div>
+
                         <script>
                             // Get data from back-end
                             {% block jquery %}
-                                var endpoint = '/api/barchart/data/';
-                                var labelsBar = [];
-                                var dataBar = [];
+                                const endpoint = '/api/barchart/data/';
+                                let labelsBar = [];
+                                let dataBar = [];
+
                                 $.ajax({
                                     method: 'GET',
                                     url: endpoint,
@@ -189,8 +198,8 @@
                                 });
 
                                 function setChart() {
-                                    var ctx = document.getElementById('myChart').getContext('2d');
-                                    var myChart = new Chart(ctx, {
+                                    const ctx = document.getElementById('myChart').getContext('2d');
+                                    const myChart = new Chart(ctx, {
                                         type: 'bar',
                                         data: {
                                             labels: labelsBar,
