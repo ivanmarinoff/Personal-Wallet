@@ -2,37 +2,37 @@
 
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Login Form</title>
-        <link href="{% static '/css/style.css' %}" rel="stylesheet" type="text/css">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <script src="/js/jquery.min.js"></script>
-        <script src="/js/popper.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-        <div class="box">
-            <h2>LOG IN</h2>
-            <form action="" method="post">
-                {% csrf_token %}
-                <div class="inputBox">
-                    <input autocomple="off" type="text" name="username" required="">
-                    <label>Username</label>
-                </div>
-                <div class="inputBox">
-                    <input type="password" name="password" required="">
-                    <label>Password</label>
-                </div>
-                <input type="submit" name="" value="log_in">
-            </form>
-            <div class="regist">
-                <p>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></p>
-            </div>
+<head>
+    <meta charset="utf-8">
+    <title>Login Form</title>
+    <link href="{% static '/css/style.css' %}" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+<div class="box">
+    <h2>LOG IN</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="inputBox">
+            <input autocomple="off" type="text" name="username" required="">
+            <label>Username</label>
         </div>
-        {% for message in messages %}
-            <p id="messages">{{ message }}</p>
-        {% endfor %}
-    </body>
+        <div class="inputBox">
+            <input type="password" name="password" required="">
+            <label>Password</label>
+        </div>
+        <input type="submit" name="" value="log_in">
+    </form>
+    <div class="regist">
+        <p>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></p>
+    </div>
+</div>
+{% for message in messages %}
+    <p id="messages">{{ message }}</p>
+{% endfor %}
+</body>
 </html>
