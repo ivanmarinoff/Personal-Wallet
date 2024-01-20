@@ -69,6 +69,7 @@ wheels/
 *.manifest 
 *.spec
 staticfiles
+node_modules
 
 
 # Installer logs 
