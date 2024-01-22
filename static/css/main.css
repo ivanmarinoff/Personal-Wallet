@@ -86,40 +86,41 @@
 }
 
 @media (max-width: 700px) {
-  #sidenav.collapsed ul {
-    display: block; 
-}
+    #sidenav.collapsed ul {
+        display: block;
+    }
 
-.sidenav-collapse i {
-    font-size: 30px;
-}
+    .sidenav-collapse i {
+        font-size: 30px;
+    }
 
-#slide-out li a i {
-    line-height: inherit;
-    width: 2rem;
-    font-size: 1.6rem;
-    display: block;
-    float: left;
-    text-align: center;
-    margin-right: 1rem;
-}
+    #slide-out li a i {
+        line-height: inherit;
+        width: 2rem;
+        font-size: 1.6rem;
+        display: block;
+        float: left;
+        text-align: center;
+        margin-right: 1rem;
+    }
 
-#slide-out ul.side-nav li {
-    padding: 0 !important;
-}
+    #slide-out ul.side-nav li {
+        padding: 0 !important;
+    }
 
-button {
-    font-family: 'Rubik', sans-serif;
-    font-size: small;
-    color: black;
-    padding: 5px 20px;
-    background-color: white;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3x ease 0s;
-}
+    button {
+        font-family: 'Rubik', sans-serif;
+        font-size: small;
+        color: black;
+        padding: 5px 20px;
+        background-color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: opacity 0.3s ease 0s, background-color 0.3s ease 0s, transform 0.3s ease 0s;
+    }
 
-button:hover {
-    background-color: rgba(240, 240, 240, 1);
+    button:hover {
+        background-color: rgba(240, 240, 240, 1);
+    }
 }
