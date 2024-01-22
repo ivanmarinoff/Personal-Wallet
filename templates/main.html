@@ -44,11 +44,11 @@
         };
 
         $(document).ready(function () {
-            var typeSel = $("#type");
-            var categorySel = $("#category");
-            var sub_categorySel = $("#sub_category");
+            const typeSel = $("#type");
+            const categorySel = $("#category");
+            const sub_categorySel = $("#sub_category");
 
-            for (var x in subjectObject) {
+            for (const x in subjectObject) {
                 typeSel.append(new Option(x, x));
             }
 
@@ -66,8 +66,8 @@
                 //empty Chapters dropdown
                 sub_categorySel.empty();
                 //display correct values
-                var z = subjectObject[typeSel.val()][this.value];
-                for (var i = 0; i < z.length; i++) {
+                const z = subjectObject[typeSel.val()][this.value];
+                for (let i = 0; i < z.length; i++) {
                     sub_categorySel.append(new Option(z[i], z[i]));
                 }
             });

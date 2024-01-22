@@ -123,6 +123,12 @@
                             window.chartColors = {
                                 red: 'rgba(255, 99, 132, 0.2)',
                                 blue: 'rgba(0, 0, 255, 0.2)',
+                                yellow: 'rgba(255, 99, 132, 1)',
+                                lightblue: 'rgba(54, 162, 235, 1)',
+                                green: 'rgba(255, 206, 86, 1)',
+                                purple: 'rgba(75, 192, 192, 1)',
+                                orange: 'rgba(153, 102, 255, 1)',
+                                darkorange:'rgba(255, 159, 64, 1)'
                                 // Add other color definitions if needed
                             };
                         </script>
@@ -136,15 +142,15 @@
                                         label: '# Earnings',
                                         fill: false,
                                         data: [{{ data_earnings|join:", " }}],
-                                        backgroundColor: window.chartColors.blue,
+                                        backgroundColor: window.chartColors.lightblue,
                                         borderColor: window.chartColors.blue,
                                         borderWidth: 1
                                     }, {
                                         label: '# Expenses',
                                         fill: false,
                                         data: [{{ data_expenses|join:", " }}],
-                                        backgroundColor: window.chartColors.red,
-                                        borderColor: window.chartColors.red,
+                                        backgroundColor: window.chartColors.darkorange,
+                                        borderColor: window.chartColors.darkorange,
                                         borderWidth: 1
                                     }],
                                 },
@@ -204,10 +210,18 @@
                                         data: {
                                             labels: labelsBar,
                                             datasets: [{
-                                                label: 'Most spending',
+                                                label: labelsBar[0],
                                                 data: dataBar,
-                                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                                borderColor: window.chartColors.red,
+                                                {#backgroundColor: 'rgba(255, 99, 132, 0.2)',#}
+                                                backgroundColor: [
+                                                        'rgba(255, 99, 132, 0.2)',
+                                                        'rgba(54, 162, 235, 0.2)',
+                                                        'rgba(255, 206, 86, 0.2)',
+                                                        'rgba(75, 192, 192, 0.2)',
+                                                        'rgba(153, 102, 255, 0.2)',
+                                                        'rgba(255, 159, 64, 0.2)'
+                                                    ],
+                                                borderColor: window.chartColors.purple,
                                                 borderWidth: 1
                                             }]
                                         },
