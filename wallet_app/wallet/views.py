@@ -1,11 +1,14 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import AccessMixin
 from django.db.models import Sum
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .forms import RecordForm, CreateUserForm
+
+from .forms import RecordForm
 from .models import RecordModel
 from datetime import datetime, timedelta
 from django.contrib.auth import authenticate, login, logout
@@ -13,63 +16,76 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 
+from ..users.forms import RegisterUserForm
+
 User = get_user_model()
-
-
-class LandingView(TemplateView):
-    template_name = "landing.html"
-
-
-class RegisterView(View):
-    template_name = "register.html"
-
-    def get(self, request):
-        if request.user.is_authenticated:
-            return redirect("dashboard")
-        form = CreateUserForm()
-        return render(request, self.template_name, {"form": form})
-
-    def post(self, request):
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get("username")
-            messages.success(request, f"Account was created for {user}")
-            return redirect("login")
-        return render(request, self.template_name, {"form": form})
-
-
-class LoginView(View):
-    template_name = "login.html"
-
-    def get(self, request):
-        if request.user.is_authenticated:
-            return redirect("dashboard")
-        return render(request, self.template_name)
-
-    def post(self, request):
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect("dashboard")
-        else:
-            messages.info(request, "Username or password is incorrect")
-            return render(request, self.template_name)
-
-
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        return redirect("/")
+#
+#
+# class OnlyAnonymousMixin(AccessMixin):
+#     login_url = "login"
+#
+#     def dispatch(self, request, *args, **kwargs):
+#         if self.request.user.is_authenticated:
+#             return redirect('home_page')
+#         return super().dispatch(request, *args, **kwargs)
+#
+#
+# class LandingView(OnlyAnonymousMixin, TemplateView):
+#     template_name = "landing.html"
+#
+#
+# class RegisterView(OnlyAnonymousMixin, View):
+#     template_name = "register.html"
+#
+#     def get(self, request):
+#         if request.user.is_authenticated:
+#             return redirect("dashboard")
+#         form = RegisterUserForm()
+#         return render(request, self.template_name, {"form": form})
+#
+#     def post(self, request):
+#         form = RegisterUserForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             user = form.cleaned_data.get("username")
+#             messages.success(request, f"Account was created for {user}")
+#             return redirect("login")
+#         return render(request, self.template_name, {"form": form})
+#
+#
+# class LoginView(OnlyAnonymousMixin, View):
+#     template_name = "login.html"
+#     redirect_authenticated_user = True
+#
+#     def get(self, request):
+#         if request.user.is_authenticated:
+#             return redirect("dashboard")
+#         return render(request, self.template_name)
+#
+#     def post(self, request):
+#         username = request.POST.get("username")
+#         password = request.POST.get("password")
+#         user = authenticate(request, username=username, password=password)
+#
+#         if user is not None:
+#             login(request, user)
+#             return redirect("dashboard")
+#         else:
+#             messages.info(request, "Username or password is incorrect")
+#             return render(request, self.template_name)
+#
+#
+# class LogoutView(View):
+#     def get(self, request):
+#         logout(request)
+#         return redirect("/")
 
 
 class DashboardView(View):
     template_name = "dashboard.html"
 
-    def get(self, request):
+    def get(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
         total_earnings = RecordModel.objects.filter(type="Income").aggregate(
             Sum("amount")
         )
@@ -146,7 +162,7 @@ class LineChartDataView(APIView):
     authentication_classes = []
     permission_classes = []
 
-    def get(self, request, format=None):
+    def get(self, request, pk):
         # Total and balance
         total_earnings = RecordModel.objects.filter(type="Income").aggregate(
             Sum("amount")
@@ -227,7 +243,7 @@ class BarChartDataView(APIView):
     authentication_classes = []
     permission_classes = []
 
-    def get(self, request, format=None):
+    def get(self, request):
         # Find all sum of expenses for each category
         # group by sum equivalen with annotate and values
         Query = (
@@ -251,39 +267,65 @@ class BarChartDataView(APIView):
         return Response(data)
 
 
+# class RecordView(View):
+#     template_name = "records.html"
+#
+#     def get(self, request, pk):
+#         form = RecordForm(initial={'user': request.user})
+#         return render(request, self.template_name, {"form": form})
+#
+#     def post(self, request, pk):
+#         form = RecordForm(request.POST)
+#         if form.is_valid():
+#             print('form is valid')
+#             RecordModel.objects.create(
+#                 type=request.POST.get("type"),
+#                 category=request.POST.get("category"),
+#                 sub_category=request.POST.get("sub_category"),
+#                 payment=request.POST.get("payment"),
+#                 amount=request.POST.get("amount"),
+#                 date=request.POST.get("date"),
+#                 time=request.POST.get("time"),
+#             )
+#             user = get_object_or_404(User, pk=pk)
+#
+#             record = form.save(commit=False)
+#             print("Record saved:", record)
+#             form.instance.user = request.user
+#             form.save()
+#             return HttpResponseRedirect("/reports")
+#         else:
+#             print('form is not valid', form.errors)
+#         return render(request, self.template_name, {"form": form})
+
 class RecordView(View):
     template_name = "records.html"
 
-    def get(self, request):
-        form = RecordForm()
+    def get(self, request, pk):
+        form = RecordForm(initial={'user': request.user})
         return render(request, self.template_name, {"form": form})
 
-    def post(self, request):
+    def post(self, request, pk):
         form = RecordForm(request.POST)
         if form.is_valid():
-            RecordModel.objects.create(
-                type=request.POST.get("type"),
-                category=request.POST.get("category"),
-                sub_category=request.POST.get("sub_category"),
-                payment=request.POST.get("payment"),
-                amount=request.POST.get("amount"),
-                date=request.POST.get("date"),
-                time=request.POST.get("time"),
-            )
-            return HttpResponseRedirect("/reports")
+            form.instance.user = request.user
+            form.save()
+            return HttpResponseRedirect(f"/reports/{pk}/")
+        else:
+            print('form is not valid', form.errors)
         return render(request, self.template_name, {"form": form})
-
 
 class ReportsView(View):
     template_name = "reports.html"
 
-    def get(self, request):
+    def get(self, request, pk):
         posts = RecordModel.objects.all()
         context = {"posts": posts}
         return render(request, self.template_name, context)
 
 
 class DeleteView(View):
-    def get(self, request, delete_id):
-        RecordModel.objects.filter(id=delete_id).delete()
-        return HttpResponseRedirect("/reports")
+    def get(self, request, delete_id, pk):
+        user = get_object_or_404(User, pk=pk)
+        RecordModel.objects.filter(id=delete_id, user=user).delete()
+        return HttpResponseRedirect(f"/reports/{pk}/")

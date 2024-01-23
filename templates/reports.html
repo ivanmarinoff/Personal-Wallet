@@ -24,7 +24,8 @@
                 <th class="table-dark" scope="col">Delete</th>
             </tr>
             </thead>
-            {% for post in posts %}
+        {% for user in users %}
+            {% if post %}
                 <tbody id="table">
                 <tr>
                     <td>{{ post.type }}</td>
@@ -34,7 +35,8 @@
                     <td>{{ post.amount }}</td>
                     <td>{{ post.date }}</td>
                     <td>{{ post.time }}</td>
-                    <td><a class="btn btn-outline-danger btn-sm" href="{% url 'delete' post.id %}">Delete</a></td>
+                    <td><a class="btn btn-outline-danger btn-sm" href="{% url 'delete' delete_id=post.id pk=post.user.pk %}">Delete</a></td>
+        {% endif %}
                 </tr>
                 </tbody>
             {% endfor %}

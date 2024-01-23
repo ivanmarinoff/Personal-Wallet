@@ -1,20 +1,13 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django import forms
-from django.conf import settings
+
+from wallet_app.wallet.models import RecordModel
 
 
-class RecordForm(forms.Form):
-    type = forms.CharField(max_length=40)
-    category = forms.CharField(max_length=40)
-    sub_category = forms.CharField(max_length=40)
-    payment = forms.CharField(max_length=40)
-    amount = forms.FloatField()
-    date = forms.DateField()
-    time = forms.TimeInput()
-
-
-class CreateUserForm(UserCreationForm):
+class RecordForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        model = RecordModel
+        fields = '__all__'
+        exclude = ['user']
+
+
+

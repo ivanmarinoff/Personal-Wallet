@@ -4,6 +4,8 @@
 
 
     <!-- Content Row -->
+{% for user in users %}
+
     <div class="row">
         <div class="col mb-3">
             <div class="card border-left-primary shadow h-100 py-2">
@@ -14,7 +16,7 @@
                                 Cash Balance Overall
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ cash_balance|floatformat:2 }}
+                                ${{ user.cash_balance|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -30,7 +32,7 @@
                                 Cash Balance This Month
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ month_cash_balance|floatformat:2 }}
+                                ${{ user.month_cash_balance|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -48,7 +50,7 @@
                                 Total Earnings
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                ${{ total_earnings|floatformat:2 }}
+                                ${{ user.total_earnings|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -64,7 +66,7 @@
                                 Total Expenses
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ total_expenses|floatformat:2 }}
+                                ${{ user.total_expenses|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -80,7 +82,7 @@
                                 This Month Earnings
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ month_earnings|floatformat:2 }}
+                                ${{ user.month_earnings|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -96,7 +98,7 @@
                                 This Month Expenses
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ month_expenses|floatformat:2 }}
+                                ${{ user.month_expenses|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -243,5 +245,8 @@
             </div>
         </div>
     </div>
+
+    {% endfor %}
+
 
 {% endblock %}
