@@ -19,66 +19,6 @@ from django.http import HttpResponseRedirect
 from ..users.forms import RegisterUserForm
 
 User = get_user_model()
-#
-#
-# class OnlyAnonymousMixin(AccessMixin):
-#     login_url = "login"
-#
-#     def dispatch(self, request, *args, **kwargs):
-#         if self.request.user.is_authenticated:
-#             return redirect('home_page')
-#         return super().dispatch(request, *args, **kwargs)
-#
-#
-# class LandingView(OnlyAnonymousMixin, TemplateView):
-#     template_name = "landing.html"
-#
-#
-# class RegisterView(OnlyAnonymousMixin, View):
-#     template_name = "register.html"
-#
-#     def get(self, request):
-#         if request.user.is_authenticated:
-#             return redirect("dashboard")
-#         form = RegisterUserForm()
-#         return render(request, self.template_name, {"form": form})
-#
-#     def post(self, request):
-#         form = RegisterUserForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             user = form.cleaned_data.get("username")
-#             messages.success(request, f"Account was created for {user}")
-#             return redirect("login")
-#         return render(request, self.template_name, {"form": form})
-#
-#
-# class LoginView(OnlyAnonymousMixin, View):
-#     template_name = "login.html"
-#     redirect_authenticated_user = True
-#
-#     def get(self, request):
-#         if request.user.is_authenticated:
-#             return redirect("dashboard")
-#         return render(request, self.template_name)
-#
-#     def post(self, request):
-#         username = request.POST.get("username")
-#         password = request.POST.get("password")
-#         user = authenticate(request, username=username, password=password)
-#
-#         if user is not None:
-#             login(request, user)
-#             return redirect("dashboard")
-#         else:
-#             messages.info(request, "Username or password is incorrect")
-#             return render(request, self.template_name)
-#
-#
-# class LogoutView(View):
-#     def get(self, request):
-#         logout(request)
-#         return redirect("/")
 
 
 class DashboardView(View):
@@ -158,88 +98,6 @@ class DashboardView(View):
         return [date_today.strftime("%B") for _ in range(n)]
 
 
-# class LineChartDataView(APIView):
-#     authentication_classes = []
-#     permission_classes = []
-#
-#     def get(self, request):
-#         # user = get_object_or_404(User, pk=id)
-#         # Total and balance
-#         total_earnings = RecordModel.objects.filter(type="Income").aggregate(
-#             Sum("amount")
-#         )
-#         total_expenses = RecordModel.objects.filter(type="Expense").aggregate(
-#             Sum("amount")
-#         )
-#
-#         earnings_sum = total_earnings.get("amount__sum") or 0
-#         expenses_sum = total_expenses.get("amount__sum") or 0
-#
-#         cash_balance = earnings_sum - expenses_sum
-#         date_today = datetime.now()
-#
-#         # This month
-#         month_first_day, next_month_first_day = self.get_month_range(date_today)
-#         month_earnings, month_expenses = self.get_month_data(
-#             month_first_day, next_month_first_day
-#         )
-#
-#         # Last 6 months
-#         n = 6
-#         labels, data_earnings, data_expenses = self.get_last_n_months_data(
-#             date_today, n
-#         )
-#
-#         data = {
-#             "labels": labels,
-#             "data_earnings": data_earnings,
-#             "data_expenses": data_expenses,
-#         }
-#
-#         return Response(data)
-#
-#     def get_month_range(self, date_today):
-#         month_first_day = date_today.replace(
-#             day=1, hour=0, minute=0, second=0, microsecond=0
-#         )
-#         next_month = (date_today.replace(day=1) + timedelta(days=32)).replace(
-#             day=1, hour=0, minute=0, second=0, microsecond=0
-#         )
-#         next_month_first_day = next_month.replace(
-#             day=1, hour=0, minute=0, second=0, microsecond=0
-#         )
-#         return month_first_day, next_month_first_day
-#
-#     def get_month_data(self, month_first_day, next_month_first_day):
-#         # user = get_object_or_404(User, pk=id)
-#         month = RecordModel.objects.filter(
-#             date__range=(month_first_day, next_month_first_day)
-#         )
-#         month_earnings = month.filter(type="Income").aggregate(Sum("amount"))
-#         month_expenses = month.filter(type="Expense").aggregate(Sum("amount"))
-#         month_earnings = month_earnings.get("amount__sum") or 0
-#         month_expenses = month_expenses.get("amount__sum") or 0
-#         month_cash_balance = month_earnings - month_expenses
-#         return month_earnings, month_expenses
-#
-#     def get_last_n_months_data(self, date_today, n):
-#         labels = []
-#         data_earnings = []
-#         data_expenses = []
-#
-#         for i in range(n):
-#             first_day, last_day = self.get_month_range(
-#                 date_today - timedelta(days=32 * (i + 1))
-#             )
-#             month_data = self.get_month_data(first_day, last_day)
-#             month_earnings, month_expenses = month_data
-#
-#             labels.insert(0, first_day.strftime("%B"))
-#             data_earnings.insert(0, month_earnings)
-#             data_expenses.insert(0, month_expenses)
-#
-#         return labels, data_earnings, data_expenses
-
 class LineChartDataView(APIView):
     authentication_classes = []
     permission_classes = []
@@ -291,11 +149,11 @@ class LineChartDataView(APIView):
 
     def get_month_data(self, start_date, end_date, user):
         month_earnings = RecordModel.objects.filter(
-             user=user, type="Income", date__range=[start_date, end_date]
+            user=user, type="Income", date__range=[start_date, end_date]
         ).aggregate(Sum("amount")).get("amount__sum") or 0
 
         month_expenses = RecordModel.objects.filter(
-             user=user, type="Expense", date__range=[start_date, end_date]
+            user=user, type="Expense", date__range=[start_date, end_date]
         ).aggregate(Sum("amount")).get("amount__sum") or 0
 
         return month_earnings, month_expenses
@@ -310,10 +168,10 @@ class LineChartDataView(APIView):
                 hour=0, minute=0, second=0, microsecond=0
             )
             month_end = (
-                (month_start.replace(day=1) + timedelta(days=32)).replace(
-                    day=1, hour=0, minute=0, second=0, microsecond=0
-                )
-                - timedelta(days=1)
+                    (month_start.replace(day=1) + timedelta(days=32)).replace(
+                        day=1, hour=0, minute=0, second=0, microsecond=0
+                    )
+                    - timedelta(days=1)
             )
 
             month_label = month_start.strftime("%B %Y")
@@ -331,6 +189,7 @@ class LineChartDataView(APIView):
             data_expenses.append(month_expenses)
 
         return labels, data_earnings, data_expenses
+
 
 class BarChartDataView(APIView):
     authentication_classes = []
@@ -362,37 +221,6 @@ class BarChartDataView(APIView):
         return Response(data)
 
 
-# class RecordView(View):
-#     template_name = "records.html"
-#
-#     def get(self, request, pk):
-#         form = RecordForm(initial={'user': request.user})
-#         return render(request, self.template_name, {"form": form})
-#
-#     def post(self, request, pk):
-#         form = RecordForm(request.POST)
-#         if form.is_valid():
-#             print('form is valid')
-#             RecordModel.objects.create(
-#                 type=request.POST.get("type"),
-#                 category=request.POST.get("category"),
-#                 sub_category=request.POST.get("sub_category"),
-#                 payment=request.POST.get("payment"),
-#                 amount=request.POST.get("amount"),
-#                 date=request.POST.get("date"),
-#                 time=request.POST.get("time"),
-#             )
-#             user = get_object_or_404(User, pk=pk)
-#
-#             record = form.save(commit=False)
-#             print("Record saved:", record)
-#             form.instance.user = request.user
-#             form.save()
-#             return HttpResponseRedirect("/reports")
-#         else:
-#             print('form is not valid', form.errors)
-#         return render(request, self.template_name, {"form": form})
-
 class RecordView(View):
     template_name = "records.html"
 
@@ -409,6 +237,7 @@ class RecordView(View):
         else:
             print('form is not valid', form.errors)
         return render(request, self.template_name, {"form": form})
+
 
 class ReportsView(View):
     template_name = "reports.html"

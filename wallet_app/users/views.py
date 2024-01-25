@@ -66,23 +66,14 @@ UserModel = get_user_model()
 #         return Response(serializer.data)
 
 
-# class OnlyAnonymousMixin:
-#     def dispatch(self, request, *args, **kwargs):
-#         if request.user.is_authenticated:
-#             return HttpResponseRedirect(self.getsuccess_url)
-#         return super().dispatch(self.request, *args, **kwargs)
-#
-#     def get_success_url(self):
-#         return self.success_url or reverse('login_user')
-
-# class OnlyAnonymousMixin(AccessMixin):
-#     def dispatch(self, request, *args, **kwargs):
-#         if self.request.user.is_authenticated:
-#             return redirect('dashboard', kwargs={'pk': self.request.user.pk})
-#         return super().dispatch(request, *args, **kwargs)
+class OnlyAnonymousMixin(AccessMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('dashboard', kwargs={'pk': request.user.pk})
+        return super().dispatch(request, *args, **kwargs)
 
 
-class LandingView(TemplateView):
+class LandingView(OnlyAnonymousMixin, TemplateView):
     template_name = "landing.html"
 
 
@@ -162,10 +153,10 @@ class LogoutUserView(auth_mixins.LoginRequiredMixin, views.View):
     #     elif response.status_code == 200:
     #         response.delete_cookie('csrftoken')
 
-        # Perform any additional actions after logout, if needed
+    # Perform any additional actions after logout, if needed
 
-        # Redirect to the next page after logout
-        # return HttpResponseRedirect(self.get_next_page())
+    # Redirect to the next page after logout
+    # return HttpResponseRedirect(self.get_next_page())
 
 # class ProfileDetailsView(ErrorRedirectMixin, auth_mixins.LoginRequiredMixin, views.DetailView):
 #     template_name = 'users/profile-details.html'
