@@ -1,5 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
+UserModel = get_user_model()
 
 # Create your models here.
 class RecordModel(models.Model):
@@ -12,7 +14,12 @@ class RecordModel(models.Model):
     time = models.TimeField(
         auto_now_add=True
     )
+    user = models.ForeignKey(
+        to=UserModel,
+        on_delete=models.CASCADE,
+        null=True,
+    )
 
 
     def __str__(self):
-        return "{}. {} - {} - {} - {}".format(self.id, self.type, self.category, self.payment, self.amount)
+        return "{}. {} - {} - {} - {}".format(self.id, self.type, self.category, self.payment, self.amount, self.user)

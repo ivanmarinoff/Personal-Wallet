@@ -23,7 +23,7 @@
 
     <!-- Cascading Dropdown for Records -->
     <script>
-        var subjectObject = {
+        const subjectObject = {
             "Income": {
                 "Building or Lands": ["Rental", "Sell"],
                 "Stock Market or Crypto": ["Crypto", "Dividen", "Sell Stock"],
@@ -85,17 +85,17 @@
         <!-- <button id="toggleSidebar" class="btn btn-dark d-md-none">
             <i class="fas fa-bars"></i>
         </button> -->
-        <a class="navbar-brand" href="{% url 'dashboard' %}">
+        <a class="navbar-brand" href="{% url 'dashboard' pk=request.user.pk %}">
             <img src="{% static 'images/wallet.png' %}" id="logo" alt="" width="30" height="24"
                  class="d-inline-block align-top">
             Manage your Finance | {{ request.user }}
         </a>
 
-        <h1 class="nav-link active"><a href="{% url 'dashboard' %}"><i
+        <h1 class="nav-link active"><a href="{% url 'dashboard' pk=request.user.pk %}"><i
                 class="fas fa-chart-bar nav-icon"></i>Dashboard</a></h1>
-        <h1 class="nav-link active"><a href="{% url 'records' %}"><i
+        <h1 class="nav-link active"><a href="{% url 'records' pk=request.user.pk %}"><i
                 class="fas fa-dice-d6 nav-icon"></i>Records</a></h1>
-        <h1 class="nav-link active"><a href="{% url 'reports' %}"><i
+        <h1 class="nav-link active"><a href="{% url 'reports' pk=request.user.pk %}"><i
                 class="fas fa-table nav-icon"></i>Reports</a></h1>
 
         <ul class="navbar-nav px-3 flex-row-reverse">
@@ -120,30 +120,5 @@
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/collapsed.js' %}"></script>
 
-<!-- <script>
-    $(document).ready(function () {
-        const $sidenav = $("#sidenav");
-        const $toggleSidebar = $("#toggleSidebar");
-
-        $toggleSidebar.click(function () {
-            $sidenav.toggleClass("hidden");
-        });
-
-        // Auto-hide sidebar on small screens
-        const mediaQuery = window.matchMedia("(max-width: 700px)");
-
-        function handleMediaQuery(event) {
-            if (event.matches) {
-                $sidenav.addClass("hidden");
-            } else {
-                $sidenav.removeClass("hidden");
-            }
-        }
-
-        handleMediaQuery(mediaQuery); // Initial check
-        mediaQuery.addEventListener("change", handleMediaQuery); // Listen for changes
-    });
-</script> -->
 </body>
-
 </html>
