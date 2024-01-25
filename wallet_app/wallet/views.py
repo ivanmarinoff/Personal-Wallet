@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import AccessMixin
 from django.db.models import Sum
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
 
@@ -249,8 +250,20 @@ class ReportsView(View):
         return render(request, self.template_name, context)
 
 
+# class DeleteView(View):
+#     def get(self, request, pk, id):
+#         user = get_object_or_404(User, pk=pk)
+#         post = get_object_or_404(RecordModel, user=user, id=id)
+#         RecordModel.objects.filter(user=user).delete()
+#         return HttpResponseRedirect(f"/reports/{pk}/{id}/")
+
 class DeleteView(View):
-    def get(self, request, pk):
+    def get(self, request, pk, id):
         user = get_object_or_404(User, pk=pk)
-        RecordModel.objects.filter(user=user).delete()
-        return HttpResponseRedirect(f"/reports/{pk}/")
+        post = get_object_or_404(RecordModel, user=user, id=id)
+        post.delete()
+        # Check if there are any more records left for the user
+        if RecordModel.objects.filter(user=user).exists():
+            return HttpResponseRedirect(f"/reports/{pk}/")
+        else:
+            return HttpResponseRedirect(reverse_lazy('dashboard', kwargs={'pk': pk}))
