@@ -7,7 +7,7 @@
         <h2> List Output </h2>
     </div>
 
-    <p class="text-end fst-italic fw-bold">*click table header to sort or seach to filter data</p>
+    <p class="text-end fst-italic fw-bold">*click table header to sort or search to filter data</p>
 
     <input class="form-control mb-2" id="input" type="text" placeholder="Search..">
     <div class="table-responsive">
@@ -24,19 +24,19 @@
                 <th class="table-dark" scope="col">Delete</th>
             </tr>
             </thead>
+        <tr>
             {% for post in posts %}
-                <tbody id="table">
-                <tr>
-                    <td>{{ post.type }}</td>
-                    <td>{{ post.category }}</td>
-                    <td>{{ post.sub_category }}</td>
-                    <td>{{ post.payment }}</td>
-                    <td>{{ post.amount }}</td>
-                    <td>{{ post.date }}</td>
-                    <td>{{ post.time }}</td>
-                    <td><a class="btn btn-outline-danger btn-sm" href="{% url 'delete' post.id %}">Delete</a></td>
-                </tr>
-                </tbody>
+            <tbody id="table">
+            <td>{{ post.type }}</td>
+            <td>{{ post.category }}</td>
+            <td>{{ post.sub_category }}</td>
+            <td>{{ post.payment }}</td>
+            <td>{{ post.amount }}</td>
+            <td>{{ post.date }}</td>
+            <td>{{ post.time }}</td>
+            <td><a class="btn btn-outline-danger btn-sm" href="{% url 'delete' pk=request.user.pk %}">Delete</a></td>
+            </tr>
+            </tbody>
             {% endfor %}
         </table>
     </div>
