@@ -22,4 +22,4 @@ class RecordModel(models.Model):
 
 
     def __str__(self):
-        return "{}. {} - {} - {} - {}".format(self.id, self.type, self.category, self.payment, self.amount)
+        return "{}. {} - {} - {} - {}".format(self.id, self.type, self.category, self.payment, self.amount, self.user)

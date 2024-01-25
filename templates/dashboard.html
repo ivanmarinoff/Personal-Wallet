@@ -4,7 +4,7 @@
 
 
     <!-- Content Row -->
-{% for user in users %}
+
 
     <div class="row">
         <div class="col mb-3">
@@ -16,7 +16,7 @@
                                 Cash Balance Overall
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ user.cash_balance|floatformat:2 }}
+                                ${{ cash_balance|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,8 @@
                                 Cash Balance This Month
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ user.month_cash_balance|floatformat:2 }}
+
+                                ${{ month_cash_balance|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -50,7 +51,7 @@
                                 Total Earnings
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                ${{ user.total_earnings|floatformat:2 }}
+                                ${{ total_earnings|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -66,7 +67,7 @@
                                 Total Expenses
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ user.total_expenses|floatformat:2 }}
+                                ${{ total_expenses|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -82,7 +83,7 @@
                                 This Month Earnings
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ user.month_earnings|floatformat:2 }}
+                                ${{ month_earnings|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -98,7 +99,7 @@
                                 This Month Expenses
                             </div>
                             <div class="h5 mb-0 text-gray-800">
-                                ${{ user.month_expenses|floatformat:2 }}
+                                ${{ month_expenses|floatformat:2 }}
                             </div>
                         </div>
                     </div>
@@ -130,41 +131,53 @@
                                 green: 'rgba(255, 206, 86, 1)',
                                 purple: 'rgba(75, 192, 192, 1)',
                                 orange: 'rgba(153, 102, 255, 1)',
-                                darkorange:'rgba(255, 159, 64, 1)'
+                                darkorange: 'rgba(255, 159, 64, 1)'
                                 // Add other color definitions if needed
                             };
-                        </script>
-                        <script>
-                            const ctx1 = document.getElementById('myChart1').getContext('2d');
-                            const myChart1 = new window.Chart(ctx1, {
-                                type: 'line',
-                                data: {
-                                    labels: ['{{labels.5}}', '{{labels.4}}', '{{labels.3}}', '{{labels.2}}', '{{labels.1}}', '{{labels.0}}'],
-                                    datasets: [{
-                                        label: '# Earnings',
-                                        fill: false,
-                                        data: [{{ data_earnings|join:", " }}],
-                                        backgroundColor: window.chartColors.lightblue,
-                                        borderColor: window.chartColors.blue,
-                                        borderWidth: 1
-                                    }, {
-                                        label: '# Expenses',
-                                        fill: false,
-                                        data: [{{ data_expenses|join:", " }}],
-                                        backgroundColor: window.chartColors.darkorange,
-                                        borderColor: window.chartColors.darkorange,
-                                        borderWidth: 1
-                                    }],
-                                },
-                                options: {
-                                    scales: {
-                                        yAxes: [{
-                                            ticks: {
-                                                beginAtZero: true
+
+                            $(document).ready(function () {
+                                // AJAX request to fetch data from LineChartDataView
+                                $.ajax({
+                                    method: 'GET',
+                                    url: '/api/linechart/data/{{ request.user.id }}', // Change the URL as needed
+                                    success: function (data) {
+                                        const ctx1 = document.getElementById('myChart1').getContext('2d');
+                                        const myChart1 = new window.Chart(ctx1, {
+                                            type: 'line',
+                                            data: {
+                                                labels: data.labels,
+                                                datasets: [{
+                                                    label: '# Earnings',
+                                                    fill: false,
+                                                    data: data.data_earnings,
+                                                    backgroundColor: window.chartColors.lightblue,
+                                                    borderColor: window.chartColors.blue,
+                                                    borderWidth: 1
+                                                }, {
+                                                    label: '# Expenses',
+                                                    fill: false,
+                                                    data: data.data_expenses,
+                                                    backgroundColor: window.chartColors.darkorange,
+                                                    borderColor: window.chartColors.darkorange,
+                                                    borderWidth: 1
+                                                }],
+                                            },
+                                            options: {
+                                                scales: {
+                                                    yAxes: [{
+                                                        ticks: {
+                                                            beginAtZero: true
+                                                        }
+                                                    }]
+                                                }
                                             }
-                                        }]
+                                        });
+                                    },
+                                    error: function (error_data) {
+                                        console.log("Error fetching line chart data");
+                                        console.log(error_data);
                                     }
-                                }
+                                });
                             });
                         </script>
                     </div>
@@ -187,7 +200,7 @@
                         <script>
                             // Get data from back-end
                             {% block jquery %}
-                                const endpoint = '/api/barchart/data/';
+                                const endpoint = '/api/barchart/data/{{ request.user.id }}';
                                 let labelsBar = [];
                                 let dataBar = [];
 
@@ -216,13 +229,13 @@
                                                 data: dataBar,
                                                 {#backgroundColor: 'rgba(255, 99, 132, 0.2)',#}
                                                 backgroundColor: [
-                                                        'rgba(255, 99, 132, 0.2)',
-                                                        'rgba(54, 162, 235, 0.2)',
-                                                        'rgba(255, 206, 86, 0.2)',
-                                                        'rgba(75, 192, 192, 0.2)',
-                                                        'rgba(153, 102, 255, 0.2)',
-                                                        'rgba(255, 159, 64, 0.2)'
-                                                    ],
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)',
+                                                    'rgba(255, 206, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(153, 102, 255, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)'
+                                                ],
                                                 borderColor: window.chartColors.purple,
                                                 borderWidth: 1
                                             }]
@@ -246,7 +259,7 @@
         </div>
     </div>
 
-    {% endfor %}
+
 
 
 {% endblock %}
