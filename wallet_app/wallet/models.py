@@ -2,10 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 UserModel = get_user_model()
-<<<<<<< HEAD
-=======
 
->>>>>>> deploy
 
 # Create your models here.
 class RecordModel(models.Model):
@@ -25,13 +22,6 @@ class RecordModel(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
-<<<<<<< HEAD
-
 
     def __str__(self):
         return "{}. {} - {} - {} - {}".format(self.id, self.type, self.category, self.payment, self.amount, self.user)
-=======
-
-    def __str__(self):
-        return "{}. {} - {} - {} - {}".format(self.id, self.type, self.category, self.payment, self.amount, self.user)
->>>>>>> deploy

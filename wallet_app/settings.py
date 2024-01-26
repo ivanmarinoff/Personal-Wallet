@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "wallet_app.wallet",
     "wallet_app.users",
     "rest_framework",
+    "schema_viewer",
 ]
 
 MIDDLEWARE = [
@@ -104,6 +105,14 @@ AUTH_PASSWORD_VALIDATORS = [
     #     "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     # },
 ]
+
+SCHEMA_VIEWER = {
+    'apps': [
+        'wallet_app.wallet',
+        'wallet_app.users',
+        'django.contrib.contenttypes',
+    ],
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
