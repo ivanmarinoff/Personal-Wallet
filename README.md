@@ -38,3 +38,4 @@ This is a personal wallet project that allows you to manage your expenses and in
 
 ### Schema Viewer
 
+![SchemaViewer](https://github.com/ivanmarinoff/Personal-Wallet/assets/107050101/cd367182-2567-4ec5-8878-58fdfcf0b037)
