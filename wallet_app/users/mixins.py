@@ -13,8 +13,8 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated or request.user != self.get_user(request, *args, **kwargs):
             return self.handle_no_permission()
-        elif not request.user.is_active:
-            return self.handle_no_permission()
+        # elif not request.user.is_active:
+        #     return self.handle_no_permission()
         elif request.user.pk != kwargs.get('pk'):
             # Optionally, you can raise Http404 or redirect to a different page
             raise Http404("You don't have permission to access this page.")

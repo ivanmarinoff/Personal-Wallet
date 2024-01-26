@@ -99,7 +99,7 @@ class DashboardView(CustomLoginRequiredMixin, ErrorRedirectMixin, View):
         return [date_today.strftime("%B") for _ in range(n)]
 
 
-class LineChartDataView(CustomLoginRequiredMixin, ErrorRedirectMixin, APIView):
+class LineChartDataView(APIView):
     authentication_classes = []
     permission_classes = []
 
@@ -192,7 +192,7 @@ class LineChartDataView(CustomLoginRequiredMixin, ErrorRedirectMixin, APIView):
         return labels, data_earnings, data_expenses
 
 
-class BarChartDataView(CustomLoginRequiredMixin, ErrorRedirectMixin, APIView):
+class BarChartDataView(APIView):
     authentication_classes = []
     permission_classes = []
 
