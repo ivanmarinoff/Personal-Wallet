@@ -35,3 +35,6 @@ This is a personal wallet project that allows you to manage your expenses and in
 
 ### Admin Page
 ![AdminView](https://github.com/ivanmarinoff/Personal-Wallet/assets/107050101/e099b4d3-ca1f-4dd6-be45-d29d593cdf96)
+
+### Schema Viewer
+
