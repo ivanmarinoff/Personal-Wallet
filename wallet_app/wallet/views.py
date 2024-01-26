@@ -237,6 +237,7 @@ class RecordView(CustomLoginRequiredMixin, ErrorRedirectMixin, View):
             return HttpResponseRedirect(f"/reports/{pk}/")
         else:
             print('form is not valid', form.errors)
+            form.errors.clear()
         return render(request, self.template_name, {"form": form})
 
 

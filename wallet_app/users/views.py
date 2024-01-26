@@ -8,6 +8,8 @@ from django.views.generic import TemplateView
 from wallet_app.users.forms import RegisterUserForm, LoginUserForm
 from django.contrib.auth import authenticate, login, logout
 
+from wallet_app.users.mixins import CustomLoginRequiredMixin
+
 UserModel = get_user_model()
 
 
@@ -104,7 +106,7 @@ class RegisterUserView(OnlyAnonymousMixin, views.CreateView):
         return reverse_lazy('dashboard', kwargs={'pk': self.object.pk})
 
 
-class LoginUserView(OnlyAnonymousMixin, auth_views.LoginView):
+class LoginUserView(auth_views.LoginView):
     form_class = LoginUserForm
     template_name = 'login.html'
     success_url = reverse_lazy('dashboard')
