@@ -1,10 +1,11 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import mixins as auth_mixins, get_user_model
 from django.contrib.auth.mixins import AccessMixin
 from django.db.models import Sum
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
-
+from wallet_app.users.mixins import CustomLoginRequiredMixin, ErrorRedirectMixin
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -21,7 +22,7 @@ from ..users.forms import RegisterUserForm
 User = get_user_model()
 
 
-class DashboardView(View):
+class DashboardView(CustomLoginRequiredMixin, ErrorRedirectMixin, View):
     template_name = "dashboard.html"
 
     def get(self, request, pk):
@@ -221,7 +222,7 @@ class BarChartDataView(APIView):
         return Response(data)
 
 
-class RecordView(View):
+class RecordView(CustomLoginRequiredMixin, ErrorRedirectMixin, View):
     template_name = "records.html"
 
     def get(self, request, pk):
@@ -236,10 +237,11 @@ class RecordView(View):
             return HttpResponseRedirect(f"/reports/{pk}/")
         else:
             print('form is not valid', form.errors)
+            form.errors.clear()
         return render(request, self.template_name, {"form": form})
 
 
-class ReportsView(View):
+class ReportsView(CustomLoginRequiredMixin, ErrorRedirectMixin, View):
     template_name = "reports.html"
 
     def get(self, request, pk):
@@ -249,8 +251,13 @@ class ReportsView(View):
         return render(request, self.template_name, context)
 
 
-class DeleteView(View):
-    def get(self, request, pk):
+class DeleteView(CustomLoginRequiredMixin, ErrorRedirectMixin, View):
+    def get(self, request, pk, id):
         user = get_object_or_404(User, pk=pk)
-        RecordModel.objects.filter(user=user).delete()
-        return HttpResponseRedirect(f"/reports/{pk}/")
+        post = get_object_or_404(RecordModel, user=user, id=id)
+        post.delete()
+        # Check if there are any more records left for the user
+        if RecordModel.objects.filter(user=user).exists():
+            return HttpResponseRedirect(f"/reports/{pk}/")
+        else:
+            return HttpResponseRedirect(reverse_lazy('dashboard', kwargs={'pk': pk}))

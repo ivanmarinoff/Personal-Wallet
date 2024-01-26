@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.urls import reverse_lazy
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -127,6 +129,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = "users.User"
+
+LOGIN_URL = reverse_lazy("login")
+
+LOGIN_REDIRECT_URL = reverse_lazy("dashboard")
+
+LOGOUT_REDIRECT_URL = reverse_lazy("landing")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

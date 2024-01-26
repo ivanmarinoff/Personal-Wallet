@@ -26,6 +26,7 @@
             </thead>
         <tr>
             {% for post in posts %}
+                {% if post %}
             <tbody id="table">
             <td>{{ post.type }}</td>
             <td>{{ post.category }}</td>
@@ -37,6 +38,10 @@
             <td><a class="btn btn-outline-danger btn-sm" href="{% url 'delete' pk=request.user.pk %}">Delete</a></td>
             </tr>
             </tbody>
+            <td><a class="btn btn-outline-danger btn-sm" href="{% url 'delete' pk=request.user.pk id=post.id %}">Delete</a></td>
+            </tr>
+            </tbody>
+            {% endif %}
             {% endfor %}
         </table>
     </div>

@@ -200,7 +200,8 @@
                         <script>
                             // Get data from back-end
                             {% block jquery %}
-                                const endpoint = '/api/barchart/data/{{ request.user.id }}';
+                                const endpoint = '/api/barchart/data/{{ request.user.pk }}';
+
                                 let labelsBar = [];
                                 let dataBar = [];
 
@@ -227,7 +228,6 @@
                                             datasets: [{
                                                 label: labelsBar[0],
                                                 data: dataBar,
-                                                {#backgroundColor: 'rgba(255, 99, 132, 0.2)',#}
                                                 backgroundColor: [
                                                     'rgba(255, 99, 132, 0.2)',
                                                     'rgba(54, 162, 235, 0.2)',

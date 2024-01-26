@@ -49,31 +49,6 @@ class LoginUserForm(auth_forms.AuthenticationForm):
         }
 
 
-# class UserEditForm(auth_forms.UserChangeForm):
-#     class Meta:
-#         model = UserModel
-#         fields = ('username', 'email', 'first_name', 'last_name', 'password')
-#         labels = {
-#             'first_name': 'First name',
-#             'last_name': 'Last name',
-#             'email': 'Email',
-#             'username': 'Username',
-#             'password': 'Password',
-#         }
-
-
-# class UserPasswordChangeForm(auth_forms.PasswordChangeForm):
-#     class Meta:
-#         model = UserModel
-#
-#     def check_password(self):
-#         return self.cleaned_data['old_password'] == self.cleaned_data['new_password2']
-#
-#     def save(self, commit=True):
-#         result = super().save(commit)
-#         return result
-
-
 @register.filter
 def form_field_class(form_field, className):
     default_classname = form_field.field.widget.attrs.get('class', '')
