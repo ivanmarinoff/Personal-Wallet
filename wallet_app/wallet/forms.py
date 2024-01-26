@@ -8,6 +8,3 @@ class RecordForm(forms.ModelForm):
         model = RecordModel
         fields = '__all__'
         exclude = ['user']
-
-
-

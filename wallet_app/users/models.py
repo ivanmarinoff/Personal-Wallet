@@ -25,12 +25,3 @@ class User(auth_models.AbstractUser):
         unique=True,
         validators=[validate_email],
     )
-
-    # @property
-    # def full_name(self):
-    #     if self.first_name and self.last_name:
-    #         return f'{self.first_name} {self.last_name}'
-    #     return None
-    #
-    # def get_absolute_url(self):
-    #     return reverse("profile-details", kwargs={"pk": self.objects.pk})

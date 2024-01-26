@@ -1,12 +1,10 @@
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import AccessMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 from django.contrib.auth import mixins as auth_mixins, get_user_model
 from django.views.generic import TemplateView
-
 from wallet_app.users.forms import RegisterUserForm, LoginUserForm
 from django.contrib.auth import authenticate, login, logout
 
@@ -73,11 +71,11 @@ class OnlyAnonymousMixin(AccessMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class LandingView(OnlyAnonymousMixin, TemplateView):
+class LandingView(TemplateView):
     template_name = "landing.html"
 
 
-class RegisterUserView(views.CreateView):
+class RegisterUserView(OnlyAnonymousMixin, views.CreateView):
     model = UserModel
     template_name = 'register.html'
     form_class = RegisterUserForm
@@ -106,7 +104,7 @@ class RegisterUserView(views.CreateView):
         return reverse_lazy('dashboard', kwargs={'pk': self.object.pk})
 
 
-class LoginUserView(auth_views.LoginView):
+class LoginUserView(OnlyAnonymousMixin, auth_views.LoginView):
     form_class = LoginUserForm
     template_name = 'login.html'
     success_url = reverse_lazy('dashboard')
