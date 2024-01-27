@@ -8,7 +8,6 @@ from django.views.generic import TemplateView
 from wallet_app.users.forms import RegisterUserForm, LoginUserForm
 from django.contrib.auth import authenticate, login, logout
 
-from wallet_app.users.mixins import CustomLoginRequiredMixin
 
 UserModel = get_user_model()
 
@@ -91,11 +90,6 @@ class RegisterUserView(OnlyAnonymousMixin, views.CreateView):
         new_user = authenticate(username=username, password=password)
         login(self.request, new_user)
         return valid
-
-    # def form_invalid(self, form):
-    #     form.errors.clear()
-    #     form.add_error(None, '   Invalid Email or Password')
-    #     return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -8,7 +8,6 @@ from django.views.generic import TemplateView
 from wallet_app.users.mixins import CustomLoginRequiredMixin, ErrorRedirectMixin
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
 from .forms import RecordForm
 from .models import RecordModel
 from datetime import datetime, timedelta

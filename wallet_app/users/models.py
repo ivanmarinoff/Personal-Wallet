@@ -16,9 +16,6 @@ class User(auth_models.AbstractUser):
         blank=True,
         null=True,
         unique=True,
-        # validators=[
-        #     validate_only_alphabetical,
-        # ]
     )
 
     email = models.EmailField(
@@ -26,5 +23,3 @@ class User(auth_models.AbstractUser):
         validators=[validate_email],
 
     )
-
-
