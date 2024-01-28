@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Oswald&display=swap');
 
 .container-fluid {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 .navbar-brand {
@@ -58,28 +58,69 @@
     overflow: hidden;
 }
 
+#sidenav.collapsed {
+  width: 0;
+}
+
 #sidenav {
-    font-family: 'Lato', sans-serif;
-    background-color: #1F1F1F;
-    padding-top: 85px;
-    width: 200px;
-    height: 100vh;
-    margin-left: -3px;
-    position: fixed;
+  font-family: 'Lato', sans-serif;
+  background-color: #1F1F1F;
+  padding-top: 85px;
+  width: 200px;
+  height: 100vh;
+  margin-left: -3px;
+  position: fixed;
+  transition: left 0.3s ease;
 }
 
-button {
-    font-family: 'Rubik', sans-serif;
-    font-size: small;
-    color: black;
-    padding: 5px 20px;
-    background-color: white;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3x ease 0s;
+#sidenav.collapsed ul {
+  display: none;
 }
 
-button:hover {
-    background-color: rgba(240, 240, 240, 1);
+#sidenav.collapsed ul li {
+  margin-top: 20px;
+}
+
+#sidenav.collapsed ul li a i {
+  font-size: 40px; 
+}
+
+@media (max-width: 700px) {
+    #sidenav.collapsed ul {
+        display: block;
+    }
+
+    .sidenav-collapse i {
+        font-size: 30px;
+    }
+
+    #slide-out li a i {
+        line-height: inherit;
+        width: 2rem;
+        font-size: 1.6rem;
+        display: block;
+        float: left;
+        text-align: center;
+        margin-right: 1rem;
+    }
+
+    #slide-out ul.side-nav li {
+        padding: 0 !important;
+    }
+
+    button {
+        font-family: 'Rubik', sans-serif;
+        font-size: small;
+        color: black;
+        padding: 5px 20px;
+        background-color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: opacity 0.3s ease 0s, background-color 0.3s ease 0s, transform 0.3s ease 0s;
+    }
+
+    button:hover {
+        background-color: rgba(240, 240, 240, 1);
+    }
 }
