@@ -3,6 +3,7 @@ from django.db import models
 
 UserModel = get_user_model()
 
+
 class RecordModel(models.Model):
     type = models.CharField(max_length=40)
     category = models.CharField(max_length=40, default=None)
