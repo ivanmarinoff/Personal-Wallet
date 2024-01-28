@@ -1,5 +1,11 @@
 from django.contrib import admin
 from .models import RecordModel
+from django.contrib.auth import get_user_model
 
-# Register your models here.
-admin.site.register(RecordModel)
+UserModel = get_user_model()
+
+
+@admin.register(RecordModel)
+class RecordModelAdmin(admin.ModelAdmin):
+    list_display = ['user', 'category', 'payment', 'amount', 'type']
+    list_filter = ['user', 'category', 'payment', 'type']
