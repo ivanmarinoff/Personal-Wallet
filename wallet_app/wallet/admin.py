@@ -7,5 +7,5 @@ UserModel = get_user_model()
 
 @admin.register(RecordModel)
 class RecordModelAdmin(admin.ModelAdmin):
-    list_display = ['user', 'category', 'payment', 'amount', 'type']
-    list_filter = ['user', 'category', 'payment', 'type']
+    list_display = ['user', 'type', 'payment', 'amount', 'category', 'date']
+    list_filter = ['user', 'type', 'payment', 'category', 'date']
