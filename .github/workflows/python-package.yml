@@ -2,7 +2,7 @@ name: Schedule for GET requests
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
           do
             echo "Execute first GET requests"
             response=$(curl -sS https://personal-wallet.onrender.com/)
-            echo "Wait 120 seconds"
-            sleep 120
+            echo "Wait 300 seconds"
+            sleep 300
             echo "GET Request operation was successful"
           done
