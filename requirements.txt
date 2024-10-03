@@ -1,5 +1,4 @@
 asgiref==3.7.2
-django-cors-headers==4.4.0
 distlib==0.3.8
 Django==5.0.1
 filelock==3.13.1
