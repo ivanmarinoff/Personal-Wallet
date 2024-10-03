@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from corsheaders.defaults import default_headers
+# from corsheaders.defaults import default_headers
 from django.urls import reverse_lazy
 from django.utils.log import RequireDebugFalse, RequireDebugTrue
 from dotenv import load_dotenv
@@ -76,8 +76,7 @@ ROOT_URLCONF = "wallet_app.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates']
-        ,
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
