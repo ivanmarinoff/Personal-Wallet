@@ -1,8 +1,5 @@
 import os
 from pathlib import Path
-
-from corsheaders.defaults import default_headers
-# from corsheaders.defaults import default_headers
 from django.urls import reverse_lazy
 from django.utils.log import RequireDebugFalse, RequireDebugTrue
 from dotenv import load_dotenv
@@ -29,11 +26,9 @@ INSTALLED_APPS = [
     "wallet_app.users",
     "rest_framework",
     "schema_viewer",
-    # 'corsheaders',
 ]
 
 MIDDLEWARE = [
-    # 'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -45,35 +40,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "wallet_app.urls"
-
-# CORS_ALLOWED_ORIGINS = [
-#     "http://127.0.0.2:3000",  # Frontend origin
-#     "http://localhost:3000",  # Include localhost as well for local development
-# ]
-#
-# CORS_ORIGIN_WHITELIST = (
-#        'http://127.0.0.1:8000',
-#        'http://localhost:8000',
-# )
-#
-# CORS_ORIGIN_ALLOW_ALL = True
-#
-# CORS_ALLOW_HEADERS = (
-#     'authorization',
-#     'content-type',
-#     'x-csrftoken',
-# )
-#
-# CORS_ALLOW_METHODS = [
-#     "GET",
-#     "POST",
-#     "PUT",
-#     "DELETE",
-#     "PATCH",
-#     "OPTIONS",
-# ]
-#
-# CORS_ALLOW_CREDENTIALS = True
 
 
 TEMPLATES = [
