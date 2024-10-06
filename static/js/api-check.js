@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function fetchNewApiKey() {
-    fetch(`https://personal-wallet.onrender.com/api/get-key/`)  // No need to pass `site_url`
+    fetch(`https://api-key-gen.onrender.com/api/get-key/`)  // No need to pass `site_url`
         .then(response => {
             if (response.status === 403 || response.status === 404) {
                 handleInvalidKey();
@@ -111,7 +111,7 @@ function validateApiKey(apiKey, siteUrl) {
     // Retrieve the CSRF token from the meta tag in the HTML
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    fetch('https://personal-wallet.onrender.com/api/validate-key/', {
+    fetch('https://api-key-gen.onrender.com/api/validate-key/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
