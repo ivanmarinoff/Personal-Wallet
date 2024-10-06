@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function fetchNewApiKey(siteUrl) {
-    fetch(`https://api-key-gen.onrender.com/api/get-key/`)
+function fetchNewApiKey() {
+    fetch(`https://personal-wallet.onrender.com/api/get-key/`)  // No need to pass `site_url`
         .then(response => {
             if (response.status === 403 || response.status === 404) {
                 handleInvalidKey();
@@ -96,7 +96,7 @@ function fetchNewApiKey(siteUrl) {
         .then(data => {
             if (data && data.key) {
                 sessionStorage.setItem('api_key', data.key);
-                validateApiKey(data.key, siteUrl);
+                validateApiKey(data.key);
             } else {
                 handleInvalidKey();
             }
@@ -108,11 +108,17 @@ function fetchNewApiKey(siteUrl) {
 }
 
 function validateApiKey(apiKey, siteUrl) {
+    // Retrieve the CSRF token from the meta tag in the HTML
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    fetch('https://api-key-gen.onrender.com/api/validate-key/', {
+
+    fetch('https://personal-wallet.onrender.com/api/validate-key/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken, },
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,  // Include the CSRF token here
+        },
         body: JSON.stringify({ key: apiKey, site_url: siteUrl }),
+        credentials: 'include'  // Include credentials for cross-origin requests if necessary
     })
         .then(response => response.json())
         .then(data => {
@@ -145,7 +151,5 @@ function handleInvalidKey() {
 
 // Function to display main content without redirecting or reloading
 function displayContent() {
-    // Directly modify the content of the page without reloading
-    // window.location.href = "/landing?api_key_valid=true";
-    window.open('#?api_key_valid=true', '_self');
+    window.open('#', '_self');
 }
