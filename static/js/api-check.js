@@ -130,8 +130,18 @@ function validateApiKey(apiKey, siteUrl) {
 
 // Function to handle invalid or missing API keys
 function handleInvalidKey() {
-    document.body.innerHTML = "<h1>Error 404: Page Not Found</h1><p>The site could not load because a valid API key is missing.</p>";
+    document.body.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; text-transform: uppercase;">
+            <div>
+                <h1 style="color:red">You do not have access rights to this page!</h1>
+                <h2 style="color:red" text-style="bold" text-transform: uppercase;>Please contact the administrator -> <a href="https://ivanmarinoff-resume.onrender.com" target="_blank" rel="noopener noreferrer">
+                        Copyright &copy; 2024
+                        ivanmarinoff</a></h2>
+            </div>
+        </div>
+    `;
 }
+
 
 // Function to display main content without redirecting or reloading
 function displayContent() {

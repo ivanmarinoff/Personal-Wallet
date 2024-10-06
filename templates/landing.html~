@@ -10,6 +10,8 @@
     <meta name="description" content>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
     <meta name="Ido" content>
 
     <!-- Bootstrap CDN -->
@@ -39,7 +41,7 @@
 </nav>
 <div class="container">
     <hr class="mt-0">
-    <h1> manage your income and expense </h1>
+    <h3> manage your income and expense </h3>
     {#        <h1> visualize it automatically. </h1>#}
     <p></p>
     <p></p>
