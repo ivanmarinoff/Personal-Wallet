@@ -141,6 +141,9 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Optional: Include subdomains
 # SECURE_SSL_REDIRECT = True
 # SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_AGE = 86400  # 86400 seconds = 24 hours
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 
 LOGGING = {
     'version': 1,
