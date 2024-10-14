@@ -15,8 +15,8 @@ jobs:
           for i in {1..2}
           do
             echo "Execute first GET request"
-            # response=$(curl -sS https://wallet-rban.onrender.com/)
-            response=$(curl -sS https://personal-wallet.onrender.com/)
+            response=$(curl -sS https://wallet-rban.onrender.com/)
+            # response=$(curl -sS https://personal-wallet.onrender.com/)
             echo "Wait 300 seconds"
             sleep 300
             echo "GET Request operation was successful"
