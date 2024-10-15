@@ -3,7 +3,7 @@ name: Schedule for GET requests
 on:
   schedule:
      # Run every 15 minutes between 08:00 and 22:00 +3 UTC
-    - cron: '*/18 5-18 * * 1-5'
+    - cron: '*/16 5-18 * * 1-5'
   workflow_dispatch:
 
 jobs:
